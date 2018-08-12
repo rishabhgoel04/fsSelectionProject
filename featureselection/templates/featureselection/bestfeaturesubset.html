@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>TaskResult</title>
+    <!-- 引入 ECharts 文件 -->
+    <script src="/static/js/echarts.js"></script>
+</head>
+<body>
+{% extends "featureselection/base.html" %}
+    {% load bootstrap3 %}
+    {% block header %}
+        <h1>Best FeatureSubset System Recommending</h1>
+    {% endblock header %}
+    {% block content %}
+        <div>
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3>
+                            Feature Names and these corresponding number：
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <h3>
+                        {% for k,v in cid.items %}
+                            <small>{{ v }} - {{ k }}&nbsp;&nbsp;&nbsp;&nbsp;</small>
+                        {% endfor %}
+                        </h3>
+                    </div>
+                </div>
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h3>Best Feature Subset</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h1>System recommendation for reference feature subset：</h1>
+                        <h1>[{{ result.best_result_system }}]<small style="color:#23238e">[from {{ result.system_result_from }} algorithm]</small></h1>
+                        <h4 style="color:#ff0000">Note: The recommended feature subset is jointly determined by these four indicatorsis:
+                            the number of features in the subset, and the classifier evaluation index: accuracy, recall, F-1.</h4>
+                        <form method="post" action="{% url 'featureselection:download_bestsubset' task_id %}"  class="form">
+                            {% csrf_token %}
+                            {% buttons %}
+                                <button name="submit" class="btn btn-primary">Download The Dataset</button>
+                            {% endbuttons %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <h2>More</h2>
+                <ul class="nav nav-tabs nav-stacked">
+                    <li><a href="{% url 'featureselection:show_result' task_id %}">Feature Selection Result From System</a></li>
+                    <li><a href="{% url 'featureselection:show_best_result' task_id %}">Best FeatureSubset System Recommending</a></li>
+                    <li><a href="{% url 'featureselection:show_user_result' task_id %}">Choose Your Own FeatureSubsets</a></li>
+                </ul>
+            </div>
+        </div>
+    {% endblock content %}
+</body>
+</html>

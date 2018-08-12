@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>TaskResult</title>
+    <!-- 引入 ECharts 文件 -->
+    <script src="/static/js/echarts.js"></script>
+</head>
+<script>
+function function0(){
+    c = document.getElementById("algorithm_");
+    if(c.innerHTML == "hide the picture"){
+        c.innerHTML = "show the picture";
+    }
+    else{
+        c.innerHTML = "hide the picture";
+    }
+}
+function function1(){
+    c = document.getElementById("chi_");
+    if(c.innerHTML == "hide the picture"){
+        c.innerHTML = "show the picture";
+    }
+    else{
+        c.innerHTML = "hide the picture";
+    }
+}
+function function2(){
+    c = document.getElementById("rlf_");
+    if(c.innerHTML == "hide the picture"){
+        c.innerHTML = "show the picture";
+    }
+    else{
+        c.innerHTML = "hide the picture";
+    }
+}
+function function3(){
+    c = document.getElementById("user_");
+    if(c.innerHTML == "hide the picture"){
+        c.innerHTML = "show the picture";
+    }
+    else{
+        c.innerHTML = "hide the picture";
+    }
+}
+</script>
+<body>
+    {% extends "featureselection/base.html" %}
+    {% load bootstrap3 %}
+    {% block header %}
+        <h1>Feature Selection Result From System</h1>
+    {% endblock header %}
+    {% block content %}
+    <div>
+        <div class="col-md-9">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3>
+                        Feature Names and these corresponding number：
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <h3>
+                    {% for k,v in cid.items %}
+                        <small>{{ v }} - {{ k }}&nbsp;&nbsp;&nbsp;&nbsp;</small>
+                    {% endfor %}
+                    </h3>
+                </div>
+            </div>
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3>Original,CFS,alpha-investing</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover" id="cfs_alpha_table">
+                        <caption><strong>Comparision of the Original,CFS,alpha-investing</strong></caption>
+                        <thread>
+                            <tr>
+                                <th>FeaturesSet From</th>
+                                <th>FeaturesSet</th>
+                                <th>Accuracy</th>
+                                <th>Recall</th>
+                                <th>F-1</th>
+                                <th>Time Algorithm Consume</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thread>
+                        <tbody>
+                            <tr>
+                                <td>Original</td>
+                                <td></td>
+                                <td>{{ result.original_accuracy }}%</td>
+                                <td>{{ recall.original }}%</td>
+                                <td>{{ f1score.original}}%</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>CFS</td>
+                                <td>[{{ result.cfs_result }}]</td>
+                                <td>{{ result.cfs_accuracy }}%</td>
+                                <td>{{ recall.cfs }}%</td>
+                                <td>{{ f1score.cfs}}%</td>
+                                <td>{{ result.cfs_time }}ms</td>
+                                <td><a href="{% url 'featureselection:download' task_id 1 0%}">Download The DataSet</a></td>
+                                {% if result.ischoosed %}
+                                    <td><label class="label label-primary">Chose</label></td>
+                                {% else %}
+                                    <td><a href="{% url 'featureselection:choose_result' task_id 1 0 %}">Choose The FeatureSubset</a></td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>alpha-investing</td>
+                                <td>[{{ result.alphainvesting_result }}]</td>
+                                <td>{{ result.alphainvesting_accuracy }}%</td>
+                                <td>{{ recall.alpha }}%</td>
+                                <td>{{ f1score.alpha}}%</td>
+                                <td>{{ result.alphainvesting_time }}ms</td>
+                                <td><a href="{% url 'featureselection:download' task_id 2 0 %}">Download The DataSet</a></td>
+                                {% if result.ischoosed %}
+                                    <td><label class="label label-primary">Chose</label></td>
+                                {% else %}
+                                    <td><a href="{% url 'featureselection:choose_result' task_id 2 0 %}">Choose The FeatureSubset</a></td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                    </table>
+                    <strong>The Corresponding Image Of The Data Is As Follows:</strong>
+                    <a href="#algorithm_echarts" data-toggle="collapse" id="algorithm_" onclick="function0()">hide the picture</a>
+                    <div class="panel-collapse collapse in" id="algorithm_echarts">
+                        {{ algorithm_echarts|safe }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3>Chi2 Algorithm</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover" id="chi2_table">
+                        <caption><strong>Comparision Of Chi2's Features Subset</strong></caption>
+                        <thead>
+                            <tr>
+                                <th>FeaturesSet</th>
+                                <th>Accuracy</th>
+                                <th>Recall</th>
+                                <th>F-1</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        {% for k, v in chi_ans_dic.items %}
+                            <tr>
+                                <td>[{{ v.0 }}]</td>
+                                <td>{{ v.1 }}%</td>
+                                <td>{{ v.3 }}%</td>
+                                <td>{{ v.4 }}%</td>
+                                <td><a href="{% url 'featureselection:download' task_id 3 k %}">Download The DataSet</a></td>
+                                {% if result.ischoosed %}
+                                    <td><label class="label label-primary">Chose</label></td>
+                                {% else %}
+                                    <td><a href="{% url 'featureselection:choose_result' task_id 3 k %}">Choose The FeatureSubset</a></td>
+                                {% endif %}
+                            </tr>
+                        {% empty %}
+                            <h3>No Chi2 FeaturesSet</h3>
+                        {% endfor %}
+                    </table>
+                    {% if chi_es %}
+                        <strong>The Corresponding Image Of The Data Is As Follows:</strong>
+                        <a href="#chi_echarts" data-toggle="collapse" id="chi_" onclick="function1()">hide the picture</a>
+                        <div class="panel-collapse collapse in" id="chi_echarts">
+                            {{ chi_es|safe }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3>ReliefF Algorithm</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover" id="reliefF_table">
+                        <caption><strong>Comparision Of ReliefF's Feature Subsets</strong></caption>
+                        <thead>
+                            <tr>
+                                <th>FeaturesSet</th>
+                                <th>Accuracy</th>
+                                <th>Recall</th>
+                                <th>F-1</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        {% for rlf in rlf_set %}
+                            <tr>
+                                <td>[{{ rlf.rlf_result }}]</td>
+                                <td>{{ rlf.rlf_accuracy }}%</td>
+                                <td>{{ rlf.rlf_recall }}%</td>
+                                <td>{{ rlf.rlf_f1 }}%</td>
+                                <td><a href="{% url 'featureselection:download' task_id 4 rlf.id %}">Download The DataSet</a></td>
+                                {% if result.ischoosed %}
+                                    <td><label class="label label-primary">Chose</label></td>
+                                {% else %}
+                                    <td><a href="{% url 'featureselection:choose_result' task_id 4 rlf.id %}">Choose The FeatureSubset</a></td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    {% if rlf_echarts %}
+                        <strong>The Corresponding Image Of The Data Is As Follows:</strong>
+                        <a href="#rlf_echarts" data-toggle="collapse" id="rlf_" onclick="function2()">hide the picture</a>
+                        <div class="panel-collapse collapse in" id="rlf_echarts">
+                            {{ rlf_echarts|safe }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3>The source of feature subsets that users have chosen in the past</h3>
+                </div>
+                <div class="panel-body">
+                    <h3><strong>Now the num of the all choices made by users is </strong><label class="label label-danger">{{ sum1 }}</label></h3>
+                    {{ pie_es|safe }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" style="background-color: rgb(255,255,255);">
+            <h2>More</h2>
+            <ul class="nav nav-tabs nav-stacked">
+                <li><a href="{% url 'featureselection:show_result' task_id %}">Feature Selection Result From System</a></li>
+                <li><a href="{% url 'featureselection:show_best_result' task_id %}">Best FeatureSubset System Recommending</a></li>
+                <li><a href="{% url 'featureselection:show_user_result' task_id %}">Choose Your Own FeatureSubsets</a></li>
+            </ul>
+        </div>
+    </div>
+    {% endblock content %}
+</body>
+</html>

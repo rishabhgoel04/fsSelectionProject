@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+</head>
+<body>
+{% extends "featureselection/base.html" %}
+{% block header %}
+    <div class='jumbotron'>
+        <h1>Start Select The FeatureSet!</h1>
+    </div>
+{% endblock header %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <h2>Welcome!</h2>
+    {% else %}
+        <h2>
+            Welcome to FeatureSelection System.Now <a href="{% url 'users:login' %}">Log in</a> or <a href="{% url 'users:register' %}">Register</a>.
+        </h2>
+    {% endif %}
+{% endblock content %}
+</body>
+</html>

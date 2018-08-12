@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入 ECharts 文件 -->
+    <script src="/static/js/echarts.js"></script>
+</head>
+<body>
+{% extends "featureselection/base.html" %}
+{% block content %}
+特征名称及其对应编号：
+{% for k,v in cid.items %}
+    {{ k }} - {{ v }}
+{% endfor %}
+<table>
+    <tr>
+        <td>原特征集的分类准确率：{{ result.original_accuracy }}%</td>
+    </tr>
+    <tr>
+        <td>基于Correlation的特征选择的特征子集：{{ result.cfs_result }}</td>
+        <td>准确率为：{{ result.cfs_accuracy }}%</td>
+        <td>算法花费时间：{{ result.cfs_time }}ms</td>
+        <td><a href="{% url 'featureselection:export_result' task_id 1 0%}">原数据集按此子集投影（导出）</a></td>
+    </tr>
+    <tr>
+        <td>基于Alpha的特征选择的特征子集：{{ result.alphainvesting_result }}</td>
+        <td>准确率为：{{ result.alphainvesting_accuracy }}%</td>
+        <td>算法花费时间：{{ result.alphainvesting_time }}ms</td>
+        <td><a href="{% url 'featureselection:export_result' task_id 2 0 %}">原数据集按此子集投影（导出）</a></td>
+    </tr>
+</table>
+{{ algorithm_echarts|safe }}
+<br>
+<br>
+<p>根据CHI值得到的特征子集（依次取CHI值最高的特征)</p>
+<table>
+    {% for k,v in chi_ans_dic.items %}
+        <tr>
+            <td>特征子集：</td><td>{{ v.0 }}</td>
+            <td>子集准确率：</td><td>{{ v.1 }}%</td>
+            {% if v.2 == 'NotExport' %}
+                <td><a href="{% url 'featureselection:export_result' task_id 3 k %}">原数据集按此子集投影（导出）</a></td>
+            {% else %}
+                <td>原数据集按此子集投影（已导出）</td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+</table>
+{{ chi_es|safe }}
+<br>
+<br>
+<p>您已自选的特征子集：</p>
+{% if userresult_list %}
+    <table>
+        {% for v in userresult_list %}
+            <tr>
+                <td>特征子集：{{ v.user_result }}</td>
+                <td>准确率为：{{ v.accuracy }}%</td>
+                <td><a href="{% url 'featureselection:export_result' task_id 0 v.id %}">原数据集按此子集投影（导出）</a></td>
+                <td><a href="{% url 'featureselection:delete_own_result' v.id %}">删除该子集</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    无
+{% endif %}
+{% if user_echarts %}
+    {{ user_echarts|safe }}
+{% endif %}
+<br>
+<br>
+<p>若您认为有更好的特征子集，请自选：</p>
+<form method="post" action="{% url 'featureselection:analyze_user_choice' task_id %}">
+    {% csrf_token %}
+    <div class="container">
+        {% for feature in features_list %}
+            <input type="checkbox" group="group_sel" value="{{ feature }}" name="features_checkbox"/>{{ feature }}
+        {% endfor %}
+        <button name="submit" forcheckboxgroup="group_sel">分析选中的特征</button>
+    </div>
+</form>
+{% endblock content %}
+</body>
+</html>
