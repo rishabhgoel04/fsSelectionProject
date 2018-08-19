@@ -9,38 +9,38 @@
 <script>
 function function0(){
     c = document.getElementById("algorithm_");
-    if(c.innerHTML == "hide the picture"){
-        c.innerHTML = "show the picture";
+    if(c.innerHTML == "隐藏图表"){
+        c.innerHTML = "展示图表";
     }
     else{
-        c.innerHTML = "hide the picture";
+        c.innerHTML = "隐藏图表";
     }
 }
 function function1(){
     c = document.getElementById("chi_");
-    if(c.innerHTML == "hide the picture"){
-        c.innerHTML = "show the picture";
+    if(c.innerHTML == "隐藏图表"){
+        c.innerHTML = "展示图表";
     }
     else{
-        c.innerHTML = "hide the picture";
+        c.innerHTML = "隐藏图表";
     }
 }
 function function2(){
     c = document.getElementById("rlf_");
-    if(c.innerHTML == "hide the picture"){
-        c.innerHTML = "show the picture";
+    if(c.innerHTML == "隐藏图表"){
+        c.innerHTML = "展示图表";
     }
     else{
-        c.innerHTML = "hide the picture";
+        c.innerHTML = "隐藏图表";
     }
 }
 function function3(){
     c = document.getElementById("user_");
-    if(c.innerHTML == "hide the picture"){
-        c.innerHTML = "show the picture";
+    if(c.innerHTML == "隐藏图表"){
+        c.innerHTML = "展示图表";
     }
     else{
-        c.innerHTML = "hide the picture";
+        c.innerHTML = "隐藏图表";
     }
 }
 </script>
@@ -48,7 +48,7 @@ function function3(){
     {% extends "featureselection/base.html" %}
     {% load bootstrap3 %}
     {% block header %}
-        <h1>Feature Selection Result From System</h1>
+        <h1>特征子集比较</h1>
     {% endblock header %}
     {% block content %}
     <div>
@@ -56,7 +56,7 @@ function function3(){
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3>
-                        Feature Names and these corresponding number：
+                        特征名称以及对应的编号：
                     </h3>
                 </div>
                 <div class="panel-body">
@@ -70,26 +70,26 @@ function function3(){
 
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3>Original,CFS,alpha-investing</h3>
+                    <h3>原始特征集,CFS算法,alpha-investing算法得到的特征子集之间的比较</h3>
                 </div>
                 <div class="panel-body">
                     <table class="table table-hover" id="cfs_alpha_table">
-                        <caption><strong>Comparision of the Original,CFS,alpha-investing</strong></caption>
+                        <caption><strong>原特征集,CFS特征子集,alpha-investing特征子集</strong></caption>
                         <thread>
                             <tr>
-                                <th>FeaturesSet From</th>
-                                <th>FeaturesSet</th>
-                                <th>Accuracy</th>
-                                <th>Recall</th>
-                                <th>F-1</th>
-                                <th>Time Algorithm Consume</th>
+                                <th>数据集来源</th>
+                                <th>数据集</th>
+                                <th>precision(准确率)</th>
+                                <th>Recall(召回值)</th>
+                                <th>F-1(F1值)</th>
+                                <th>算法时间消耗</th>
                                 <th></th>
                                 <th></th>
                             </tr>
                         </thread>
                         <tbody>
                             <tr>
-                                <td>Original</td>
+                                <td>原始数据集</td>
                                 <td></td>
                                 <td>{{ result.original_accuracy }}%</td>
                                 <td>{{ recall.original }}%</td>
@@ -105,11 +105,11 @@ function function3(){
                                 <td>{{ recall.cfs }}%</td>
                                 <td>{{ f1score.cfs}}%</td>
                                 <td>{{ result.cfs_time }}ms</td>
-                                <td><a href="{% url 'featureselection:download' task_id 1 0%}">Download The DataSet</a></td>
+                                <td><a href="{% url 'featureselection:download' task_id 1 0%}">下载该数据集</a></td>
                                 {% if result.ischoosed %}
-                                    <td><label class="label label-primary">Chose</label></td>
+                                    <td><label class="label label-primary">已选择</label></td>
                                 {% else %}
-                                    <td><a href="{% url 'featureselection:choose_result' task_id 1 0 %}">Choose The FeatureSubset</a></td>
+                                    <td><a href="{% url 'featureselection:choose_result' task_id 1 0 %}">选择该数据集</a></td>
                                 {% endif %}
                             </tr>
                             <tr>
@@ -119,17 +119,17 @@ function function3(){
                                 <td>{{ recall.alpha }}%</td>
                                 <td>{{ f1score.alpha}}%</td>
                                 <td>{{ result.alphainvesting_time }}ms</td>
-                                <td><a href="{% url 'featureselection:download' task_id 2 0 %}">Download The DataSet</a></td>
+                                <td><a href="{% url 'featureselection:download' task_id 2 0 %}">下载该数据集</a></td>
                                 {% if result.ischoosed %}
-                                    <td><label class="label label-primary">Chose</label></td>
+                                    <td><label class="label label-primary">已选择</label></td>
                                 {% else %}
-                                    <td><a href="{% url 'featureselection:choose_result' task_id 2 0 %}">Choose The FeatureSubset</a></td>
+                                    <td><a href="{% url 'featureselection:choose_result' task_id 2 0 %}">选择该数据集</a></td>
                                 {% endif %}
                             </tr>
                         </tbody>
                     </table>
-                    <strong>The Corresponding Image Of The Data Is As Follows:</strong>
-                    <a href="#algorithm_echarts" data-toggle="collapse" id="algorithm_" onclick="function0()">hide the picture</a>
+                    <strong>数据对应柱状图：</strong>
+                    <a href="#algorithm_echarts" data-toggle="collapse" id="algorithm_" onclick="function0()">隐藏图表</a>
                     <div class="panel-collapse collapse in" id="algorithm_echarts">
                         {{ algorithm_echarts|safe }}
                     </div>
@@ -138,17 +138,17 @@ function function3(){
 
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3>Chi2 Algorithm</h3>
+                    <h3>Chi2 算法</h3>
                 </div>
                 <div class="panel-body">
                     <table class="table table-hover" id="chi2_table">
-                        <caption><strong>Comparision Of Chi2's Features Subset</strong></caption>
+                        <caption><strong>Chi2算法得到的数据集之间的比较</strong></caption>
                         <thead>
                             <tr>
-                                <th>FeaturesSet</th>
-                                <th>Accuracy</th>
-                                <th>Recall</th>
-                                <th>F-1</th>
+                                <th>特征子集</th>
+                                <th>precision(准确率)</th>
+                                <th>Recall(召回值)</th>
+                                <th>F-1(F1值)</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -159,20 +159,20 @@ function function3(){
                                 <td>{{ v.1 }}%</td>
                                 <td>{{ v.3 }}%</td>
                                 <td>{{ v.4 }}%</td>
-                                <td><a href="{% url 'featureselection:download' task_id 3 k %}">Download The DataSet</a></td>
+                                <td><a href="{% url 'featureselection:download' task_id 3 k %}">下载该数据集</a></td>
                                 {% if result.ischoosed %}
-                                    <td><label class="label label-primary">Chose</label></td>
+                                    <td><label class="label label-primary">已选择</label></td>
                                 {% else %}
-                                    <td><a href="{% url 'featureselection:choose_result' task_id 3 k %}">Choose The FeatureSubset</a></td>
+                                    <td><a href="{% url 'featureselection:choose_result' task_id 3 k %}">选择该数据集</a></td>
                                 {% endif %}
                             </tr>
                         {% empty %}
-                            <h3>No Chi2 FeaturesSet</h3>
+                            <h3>无Chi2算法结果。</h3>
                         {% endfor %}
                     </table>
                     {% if chi_es %}
-                        <strong>The Corresponding Image Of The Data Is As Follows:</strong>
-                        <a href="#chi_echarts" data-toggle="collapse" id="chi_" onclick="function1()">hide the picture</a>
+                        <strong>数据对应折线图：</strong>
+                        <a href="#chi_echarts" data-toggle="collapse" id="chi_" onclick="function1()">隐藏图表</a>
                         <div class="panel-collapse collapse in" id="chi_echarts">
                             {{ chi_es|safe }}
                         </div>
@@ -182,17 +182,17 @@ function function3(){
 
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3>ReliefF Algorithm</h3>
+                    <h3>ReliefF 算法</h3>
                 </div>
                 <div class="panel-body">
                     <table class="table table-hover" id="reliefF_table">
-                        <caption><strong>Comparision Of ReliefF's Feature Subsets</strong></caption>
+                        <caption><strong>ReliefF算法得到的数据集之间的比较</strong></caption>
                         <thead>
                             <tr>
-                                <th>FeaturesSet</th>
-                                <th>Accuracy</th>
-                                <th>Recall</th>
-                                <th>F-1</th>
+                                <th>特征子集</th>
+                                <th>precision(准确率)</th>
+                                <th>Recall(回归值)</th>
+                                <th>F-1(F1值)</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -203,18 +203,18 @@ function function3(){
                                 <td>{{ rlf.rlf_accuracy }}%</td>
                                 <td>{{ rlf.rlf_recall }}%</td>
                                 <td>{{ rlf.rlf_f1 }}%</td>
-                                <td><a href="{% url 'featureselection:download' task_id 4 rlf.id %}">Download The DataSet</a></td>
+                                <td><a href="{% url 'featureselection:download' task_id 4 rlf.id %}">下载该数据集</a></td>
                                 {% if result.ischoosed %}
-                                    <td><label class="label label-primary">Chose</label></td>
+                                    <td><label class="label label-primary">已选择</label></td>
                                 {% else %}
-                                    <td><a href="{% url 'featureselection:choose_result' task_id 4 rlf.id %}">Choose The FeatureSubset</a></td>
+                                    <td><a href="{% url 'featureselection:choose_result' task_id 4 rlf.id %}">选择该数据集</a></td>
                                 {% endif %}
                             </tr>
                         {% endfor %}
                     </table>
                     {% if rlf_echarts %}
-                        <strong>The Corresponding Image Of The Data Is As Follows:</strong>
-                        <a href="#rlf_echarts" data-toggle="collapse" id="rlf_" onclick="function2()">hide the picture</a>
+                        <strong>数据对应折线图:</strong>
+                        <a href="#rlf_echarts" data-toggle="collapse" id="rlf_" onclick="function2()">隐藏图表</a>
                         <div class="panel-collapse collapse in" id="rlf_echarts">
                             {{ rlf_echarts|safe }}
                         </div>
@@ -223,10 +223,10 @@ function function3(){
             </div>
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3>The source of feature subsets that users have chosen in the past</h3>
+                    <h3>以往用户在任务中所选的算法结果</h3>
                 </div>
                 <div class="panel-body">
-                    <h3><strong>Now the num of the all choices made by users is </strong><label class="label label-danger">{{ sum1 }}</label></h3>
+                    <h3><strong>任务总数 </strong><label class="label label-danger">{{ sum1 }}</label></h3>
                     {{ pie_es|safe }}
                 </div>
             </div>
@@ -234,9 +234,9 @@ function function3(){
         <div class="col-md-3" style="background-color: rgb(255,255,255);">
             <h2>More</h2>
             <ul class="nav nav-tabs nav-stacked">
-                <li><a href="{% url 'featureselection:show_result' task_id %}">Feature Selection Result From System</a></li>
-                <li><a href="{% url 'featureselection:show_best_result' task_id %}">Best FeatureSubset System Recommending</a></li>
-                <li><a href="{% url 'featureselection:show_user_result' task_id %}">Choose Your Own FeatureSubsets</a></li>
+                <li><a href="{% url 'featureselection:show_result' task_id %}">所有的特征选择结果</a></li>
+                <li><a href="{% url 'featureselection:show_best_result' task_id %}">最佳特征子集</a></li>
+                <li><a href="{% url 'featureselection:show_user_result' task_id %}">选择你的特征子集</a></li>
             </ul>
         </div>
     </div>

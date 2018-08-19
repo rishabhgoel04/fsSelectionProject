@@ -342,6 +342,7 @@ def show_user_result(request, task_id):
         'algorithm_echarts': algorithm_echarts,
         'chi_es': chi_es,
         'rlf_echarts': rlf_echarts,
+        'result': result,
     })
 
 

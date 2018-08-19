@@ -15,31 +15,31 @@
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3>
-                    FileName:&nbsp;&nbsp;&nbsp;&nbsp;{{ task.upload_file }}
+                    文件名:&nbsp;&nbsp;&nbsp;&nbsp;{{ task.upload_file }}
                 </h3>
                 <h3>
                     {{ task.date_added|date:'M d,Y H:i' }}&nbsp;&nbsp;
                     <small>
-                        <a href="{% url 'featureselection:show_result' task.id %}" style="color:#ffffff">Detail</a>&nbsp;&nbsp;&nbsp;
-                        <a href="{% url 'featureselection:delete_task' task.id task.user_id %}" style="color:#ffffff">Delete This One</a>
+                        <a href="{% url 'featureselection:show_result' task.id %}" style="color:#ffffff">详细情况</a>&nbsp;&nbsp;&nbsp;
+                        <a href="{% url 'featureselection:delete_task' task.id task.user_id %}" style="color:#ffffff">删除</a>
                     </small>
                 </h3>
             </div>
             <div class="panel-body">
                 <h4>
-                    Feature Names:
+                    特征名称:
                     <small>
                         {{ task.feature_names }}
                     </small>
                 </h4>
                 <h4>
-                    Label Name:
+                    标签名称:
                     <small>
                         {{ task.label_name }}
                     </small>
                 </h4>
                 <h4>
-                    Task Type:
+                    任务类型:
                     <small>
                         {{ task.task_type }}
                     </small>
@@ -47,7 +47,7 @@
             </div>
         </div>
     {% empty %}
-        <h3>You Have Not Commit Any Task.Now Go to Start.</h3>
+        <h3>您还未提交任何任务，现在就开始吧。</h3>
     {% endfor %}
 {% endblock content %}
 </body>

@@ -229,11 +229,11 @@ def dic2str(dict):
 #  得到数据集的列数, 参数num表示第几次运行这个函数
 def get_column_num(file, num):
     if num == 1:  # 第一次运行函数将更新temp.csv
-        with open('C:\\Users\\HZF\\Downloads\\fsSelectionProject\\temp.csv', 'wb+') as destination:
+        with open('C:\\Users\\HZF\\Desktop\\fsSelectionProject\\temp.csv', 'wb+') as destination:
             line = file.readline()
             destination.write(line)
             destination.close()
-    out = open('C:\\Users\\HZF\\Downloads\\fsSelectionProject\\temp.csv', 'rb')
+    out = open('C:\\Users\\HZF\\Desktop\\fsSelectionProject\\temp.csv', 'rb')
     tempfile = np.loadtxt(out, dtype=str, delimiter=',', skiprows=0)
     out.close()
     b = tempfile.shape

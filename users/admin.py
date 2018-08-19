@@ -13,28 +13,28 @@ from users.models import MyUser
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password1 = forms.CharField(label='密码', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='确认密码', widget=forms.PasswordInput)
 
     class Meta:
         model = MyUser
         fields = ('username', 'email')
-        labels = {}  # 自定义标签名
+        labels = {'username': '用户名', 'email': '邮箱'}  # 自定义标签名
 
     def clean_password2(self):
         # Check that the two password entries match
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match")
+            raise forms.ValidationError("前后密码不相同")
         return password2
 
     def save(self, commit=True):
         # Save the provided password in hashed format
         user = super().save(commit=False)
-        user.upload_address = 'C:\\Users\\HZF\\Downloads\\fsSelectionProject\\User\\' + user.username + '\\upload\\'
-        user.export_address = 'C:\\Users\\HZF\\Downloads\\fsSelectionProject\\User\\' + user.username + '\\export\\'
-        user.chians_address = 'C:\\Users\\HZF\\Downloads\\fsSelectionProject\\User\\' + user.username + '\\chians\\'
+        user.upload_address = 'C:\\Users\\HZF\\Desktop\\fsSelectionProject\\User\\' + user.username + '\\upload\\'
+        user.export_address = 'C:\\Users\\HZF\\Desktop\\fsSelectionProject\\User\\' + user.username + '\\export\\'
+        user.chians_address = 'C:\\Users\\HZF\\Desktop\\fsSelectionProject\\User\\' + user.username + '\\chians\\'
 
         os.makedirs(user.upload_address)
         os.makedirs(user.export_address)

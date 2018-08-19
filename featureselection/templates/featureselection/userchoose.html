@@ -7,13 +7,22 @@
     <script src="/static/js/echarts.js"></script>
 </head>
 <script>
-    function function4(){
-        c = document.getElementById("system_");
-        if(c.innerHTML == "hide the picture"){
-            c.innerHTML = "show the picture";
+    function function5(){
+        c = document.getElementById("user_");
+        if(c.innerHTML == "隐藏图表"){
+            c.innerHTML = "展示图表";
         }
         else{
-            c.innerHTML = "hide the picture";
+            c.innerHTML = "隐藏图表";
+        }
+    }
+    function function4(){
+        c = document.getElementById("system_");
+        if(c.innerHTML == "隐藏图表"){
+            c.innerHTML = "展示图表";
+        }
+        else{
+            c.innerHTML = "隐藏图表";
         }
     }
 </script>
@@ -21,7 +30,7 @@
 {% extends "featureselection/base.html" %}
     {% load bootstrap3 %}
     {% block header %}
-        <h1>Choose Your Own FeatureSubsets</h1>
+        <h1>选择你自己的特征子集</h1>
     {% endblock header %}
     {% block content %}
         <div>
@@ -29,7 +38,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3>
-                            Feature Names and these corresponding number：
+                            特征名称以及对应的编号：
                         </h3>
                     </div>
                     <div class="panel-body">
@@ -42,10 +51,10 @@
                 </div>
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3>User's Feature Subset</h3>
+                        <h3>自选特征子集</h3>
                     </div>
                     <div class="panel-body">
-                        <h1>If You Think That There Is Still Better FeatureSubset：</h1>
+                        <h1>如果你认为有更优的特征子集：</h1>
                         <form method="post" action="{% url 'featureselection:analyze_user_choice' task_id %}" class="form">
                             {% csrf_token %}
                             <div class="container">
@@ -55,7 +64,7 @@
                                     {% endfor %}
                                 </h4>
                                 {% buttons %}
-                                    <button name="submit" class="btn btn-primary" forcheckboxgroup="group_sel">Analysis Your Subset</button>
+                                    <button name="submit" class="btn btn-primary" forcheckboxgroup="group_sel">分析你的特征子集</button>
                                 {% endbuttons %}
                             </div>
                         </form>
@@ -63,19 +72,19 @@
                 </div>
                 <div class="panel panel-danger">
                     <div class="panel-heading">
-                        <h3>User's Feature Subset</h3>
+                        <h3>自选特征子集</h3>
                     </div>
                     <div class="panel-body">
-                        <h2>The Subset Of Features You Have Selected：</h2>
+                        <h2>已选择的特征子集：</h2>
                         {% if userresult_list %}
                             <table class="table table-hover" id="user_table">
-                                <caption><strong>Comparison Of Your Own Subset</strong></caption>
+                                <caption><strong>自选特征子集之间的比较</strong></caption>
                                 <thead>
                                     <tr>
-                                        <th>FeaturesSet</th>
-                                        <th>Accuracy</th>
-                                        <th>Recall</th>
-                                        <th>F-1</th>
+                                        <th>数据集</th>
+                                        <th>precision(准确率)</th>
+                                        <th>Recall(召回值)</th>
+                                        <th>F-1(F1值)</th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -87,22 +96,22 @@
                                         <td>{{ v.accuracy }}%</td>
                                         <td>{{ v.recall }}%</td>
                                         <td>{{ v.f1 }}%</td>
-                                        <td><a href="{% url 'featureselection:download' task_id 0 v.id %}">Download The DataSet</a></td>
-                                        <td><a href="{% url 'featureselection:delete_own_result' v.id %}">Delete This FeatureSubset</a></td>
+                                        <td><a href="{% url 'featureselection:download' task_id 0 v.id %}">下载该数据集</a></td>
+                                        <td><a href="{% url 'featureselection:delete_own_result' v.id %}">删除该数据集</a></td>
                                         {% if result.ischoosed %}
-                                            <td><label class="label label-primary">Chose</label></td>
+                                            <td><label class="label label-primary">已选择</label></td>
                                         {% else %}
-                                            <td><a href="{% url 'featureselection:choose_result' task_id 0 v.id %}">Choose The FeatureSubset</a></td>
+                                            <td><a href="{% url 'featureselection:choose_result' task_id 0 v.id %}">选择该数据子集</a></td>
                                         {% endif %}
                                     </tr>
                                 {% endfor %}
                             </table>
                         {% else %}
-                            <h3>No FeaturesSet</h3>
+                            <h3>还未选择自己的特征子集</h3>
                         {% endif %}
                         {% if user_echarts %}
-                            <strong>The Corresponding Image Of The Data Is As Follows:</strong>
-                            <a href="#user_echarts" data-toggle="collapse" id="user_" onclick="function3()">hide the picture</a>
+                            <strong>数据对应柱状图:</strong>
+                            <a href="#user_echarts" data-toggle="collapse" id="user_" onclick="function5()">隐藏图表</a>
                             <div class="panel-collapse collapse in" id="user_echarts">
                                 {{ user_echarts|safe }}
                             </div>
@@ -111,10 +120,10 @@
                 </div>
                 <div class="panel panel-warning">
                     <div class="panel-heading">
-                        <h3>System charts</h3>
+                        <h3>系统的图表</h3>
                     </div>
                     <div class="panel-body">
-                        <a href="#system_echarts" data-toggle="collapse" id="system_" onclick="function4()">show the picture</a>
+                        <a href="#system_echarts" data-toggle="collapse" id="system_" onclick="function4()">隐藏图表</a>
                             <div class="panel-collapse collapse" id="system_echarts">
                                 {% if algorithm_echarts %}
                                     {{ algorithm_echarts|safe }}
@@ -132,9 +141,9 @@
             <div class="col-md-3">
                 <h2>More</h2>
                 <ul class="nav nav-tabs nav-stacked">
-                    <li><a href="{% url 'featureselection:show_result' task_id %}">Feature Selection Result From System</a></li>
-                    <li><a href="{% url 'featureselection:show_best_result' task_id %}">Best FeatureSubset System Recommending</a></li>
-                    <li><a href="{% url 'featureselection:show_user_result' task_id %}">Choose Your Own FeatureSubsets</a></li>
+                    <li><a href="{% url 'featureselection:show_result' task_id %}">所有的特征选择结果</a></li>
+                    <li><a href="{% url 'featureselection:show_best_result' task_id %}">最佳特征子集</a></li>
+                    <li><a href="{% url 'featureselection:show_user_result' task_id %}">选择你的特征子集</a></li>
                 </ul>
             </div>
         </div>

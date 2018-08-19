@@ -18,7 +18,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3>
-                            Feature Names and these corresponding number：
+                            特征名称以及对应的编号：
                         </h3>
                     </div>
                     <div class="panel-body">
@@ -31,17 +31,16 @@
                 </div>
                 <div class="panel panel-danger">
                     <div class="panel-heading">
-                        <h3>Best Feature Subset</h3>
+                        <h3>最佳特征子集</h3>
                     </div>
                     <div class="panel-body">
-                        <h1>System recommendation for reference feature subset：</h1>
-                        <h1>[{{ result.best_result_system }}]<small style="color:#23238e">[from {{ result.system_result_from }} algorithm]</small></h1>
-                        <h4 style="color:#ff0000">Note: The recommended feature subset is jointly determined by these four indicatorsis:
-                            the number of features in the subset, and the classifier evaluation index: accuracy, recall, F-1.</h4>
+                        <h1>系统推荐的最佳特征子集</h1>
+                        <h1>[{{ result.best_result_system }}]<small style="color:#23238e">[来自 {{ result.system_result_from }} 算法]</small></h1>
+                        <h4 style="color:#ff0000">注意：推荐的最佳特征子集是根据精确度(precision)，召回值(recall)，f1值，特征子集长度等反面考虑。仅供参考。</h4>
                         <form method="post" action="{% url 'featureselection:download_bestsubset' task_id %}"  class="form">
                             {% csrf_token %}
                             {% buttons %}
-                                <button name="submit" class="btn btn-primary">Download The Dataset</button>
+                                <button name="submit" class="btn btn-primary">下载数据集</button>
                             {% endbuttons %}
                         </form>
                     </div>
@@ -50,9 +49,9 @@
             <div class="col-md-3">
                 <h2>More</h2>
                 <ul class="nav nav-tabs nav-stacked">
-                    <li><a href="{% url 'featureselection:show_result' task_id %}">Feature Selection Result From System</a></li>
-                    <li><a href="{% url 'featureselection:show_best_result' task_id %}">Best FeatureSubset System Recommending</a></li>
-                    <li><a href="{% url 'featureselection:show_user_result' task_id %}">Choose Your Own FeatureSubsets</a></li>
+                    <li><a href="{% url 'featureselection:show_result' task_id %}">所有的特征选择结果</a></li>
+                    <li><a href="{% url 'featureselection:show_best_result' task_id %}">最佳特征子集</a></li>
+                    <li><a href="{% url 'featureselection:show_user_result' task_id %}">选择你的特征子集</a></li>
                 </ul>
             </div>
         </div>
