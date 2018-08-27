@@ -30,7 +30,7 @@
 {% extends "featureselection/base.html" %}
     {% load bootstrap3 %}
     {% block header %}
-        <h1>选择你自己的特征子集</h1>
+        <h1>选择你的特征子集</h1>
     {% endblock header %}
     {% block content %}
         <div>
@@ -107,7 +107,7 @@
                                 {% endfor %}
                             </table>
                         {% else %}
-                            <h3>还未选择自己的特征子集</h3>
+                            <h3>还未选择特征子集</h3>
                         {% endif %}
                         {% if user_echarts %}
                             <strong>数据对应柱状图:</strong>
@@ -123,7 +123,7 @@
                         <h3>系统的图表</h3>
                     </div>
                     <div class="panel-body">
-                        <a href="#system_echarts" data-toggle="collapse" id="system_" onclick="function4()">隐藏图表</a>
+                        <a href="#system_echarts" data-toggle="collapse" id="system_" onclick="function4()">展示图表</a>
                             <div class="panel-collapse collapse" id="system_echarts">
                                 {% if algorithm_echarts %}
                                     {{ algorithm_echarts|safe }}

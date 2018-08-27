@@ -8,6 +8,9 @@ safety: low, med, high.
 标签名称：
 汽车等级
 
+
+
 buying,maint,doors,persons,lug_boot,safety
+
 
 car_level
